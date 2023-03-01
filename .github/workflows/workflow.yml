@@ -40,7 +40,7 @@ jobs:
               }
               const file = fs.readFileSync(filePath)
               var fileString = file.toString()
-              fileString = fileString.replaceAll("UnitTestResult", "unittestresult")
+              fileString = fileString.replaceAll("UnitTestResult", "unittestresult") //Crashed with caps
               const dom = parser.parseFromString(fileString)
               dom.getElementsByTagName("unittestresult").forEach((testcase) => {
                   testName = testcase.getAttribute("testName")
@@ -49,3 +49,16 @@ jobs:
               })
           })
           console.log(assertionResults)
+      
+      
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      with:
+        args: >
+          -Dsonar.projectKey=${{ github.event.repository.name }}
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+        PROJECT_ID: ${{ github.event.repository.name }}
+  
