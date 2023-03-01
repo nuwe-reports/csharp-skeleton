@@ -52,6 +52,7 @@ jobs:
       
       
     - name: SonarQube Scan
+      if: always()
       uses: sonarsource/sonarqube-scan-action@master
       with:
         args: >
