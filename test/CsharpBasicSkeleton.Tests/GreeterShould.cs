@@ -10,9 +10,9 @@ public class GreeterShould
         Assert.Equal("Hello Jhon", Greeter.Greet("Jhon"));
     }
 
-    [Fact]
+    /*[Fact]
     public void Failed_Test()
     {
         Assert.Equal(0, 1);
-    }
+    }*/
 }
