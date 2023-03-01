@@ -15,6 +15,9 @@ jobs:
         dotnet-version: 6.0.x
     - name: Build with dotnet
       run: dotnet build --configuration Release
+      
+    - name: Install xml Parser
+      run: npm install dom-parser
 
     - name: Unit Tests
       run: dotnet test -l:trx 
