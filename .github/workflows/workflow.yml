@@ -1,10 +1,12 @@
-name: Main Workflow
-
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -13,5 +15,34 @@ jobs:
         dotnet-version: 6.0.x
     - name: Build with dotnet
       run: dotnet build --configuration Release
+
     - name: Unit Tests
-      run: dotnet test
+      run: dotnet test -l:trx 
+    
+    - name: Update solution
+      if: always()
+      uses: actions/github-script@v6
+      with:
+        result-encoding: string
+        script: |
+          const fs = require('fs')
+          const DomParser = require('dom-parser')
+          var parser = new DomParser()
+          const assertionResults = []
+          const parentDir = 'test/CsharpBasicSkeleton.Tests/TestResults/'
+          fs.readdirSync(parentDir).forEach((fileName) => {
+              const filePath = parentDir + fileName
+              if (fs.lstatSync(filePath).isDirectory()) {
+                  return
+              }
+              const file = fs.readFileSync(filePath)
+              var fileString = file.toString()
+              fileString = fileString.replaceAll("UnitTestResult", "unittestresult")
+              const dom = parser.parseFromString(fileString)
+              dom.getElementsByTagName("unittestresult").forEach((testcase) => {
+                  testName = testcase.getAttribute("testName")
+                  testResult = testcase.getAttribute("outcome")
+                  assertionResults.push(testResult === "Passed")
+              })
+          })
+          console.log(assertionResults)
