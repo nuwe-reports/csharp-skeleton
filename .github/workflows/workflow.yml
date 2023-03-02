@@ -37,5 +37,5 @@ jobs:
       run: |
         dotnet tool install --global dotnet-sonarscanner
         dotnet tool install --global dotnet-reportgenerator-globaltool
-        chmod +x ./sonar.sh
+        chmod +x .github/workflows/sonarqube.sh
         bash .github/workflows/sonarqube.sh
