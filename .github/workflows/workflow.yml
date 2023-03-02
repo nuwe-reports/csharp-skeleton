@@ -4,14 +4,8 @@ on:
       - main
 
 jobs:
-  sonarqube:
+  grading:
     runs-on: ubuntu-latest
-    
-    env:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-      PROJECT_ID: ${{ github.event.repository.name }}
 
     steps:
     - uses: actions/checkout@v2
@@ -20,22 +14,20 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-    
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
       
-    - name: Install xml Parser
-      run: npm install dom-parser
-
-    - name: Unit Tests
-      run: dotnet test -l:trx --collect:"XPlat Code Coverage"
-    
-    - name: Update solution
-      run: node .github/workflows/update_solution.js
-      
-    - name: SonarQube Scan
+    - name: Build, test and SonarQube Scan
       run: |
         dotnet tool install --global dotnet-sonarscanner
         dotnet tool install --global dotnet-reportgenerator-globaltool
         chmod +x .github/workflows/sonarqube.sh
         bash .github/workflows/sonarqube.sh
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+        PROJECT_ID: ${{ github.event.repository.name }}ç
+    
+    - name: Update solution
+      run: |
+        npm install dom-parser
+        node .github/workflows/update_solution.js
