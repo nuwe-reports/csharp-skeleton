@@ -6,6 +6,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+      PROJECT_ID: ${{ github.event.repository.name }}
 
     steps:
     - uses: actions/checkout@v2
@@ -50,17 +56,16 @@ jobs:
           })
           console.log(assertionResults)
       
-      
-    - name: SonarQube Scan
-      if: always()
-      uses: sonarsource/sonarqube-scan-action@master
-      with:
-        args: >
-          -Dsonar.projectKey=${{ github.event.repository.name }}
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-        PROJECT_ID: ${{ github.event.repository.name }}
+    - name: Run script
+      run: ./sonar.sh
+      shell: bash
+
+    # It doesn't work with C# files
+    #- name: SonarQube Scan
+    #  if: always()
+    #  uses: sonarsource/sonarqube-scan-action@master
+    #  with:
+    #    args: >
+    #      -Dsonar.projectKey=${{ github.event.repository.name }}
   
   
