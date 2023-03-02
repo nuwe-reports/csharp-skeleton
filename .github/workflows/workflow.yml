@@ -6,12 +6,6 @@ on:
 jobs:
   sonarqube:
     runs-on: ubuntu-latest
-    
-    env:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-      PROJECT_ID: ${{ github.event.repository.name }}
 
     steps:
     - uses: actions/checkout@v2
@@ -38,3 +32,8 @@ jobs:
         dotnet tool install --global dotnet-sonarscanner
         dotnet tool install --global dotnet-reportgenerator-globaltool
         bash .github/workflows/sonarqube.sh
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+        PROJECT_ID: ${{ github.event.repository.name }}
