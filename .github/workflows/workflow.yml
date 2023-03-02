@@ -55,13 +55,11 @@ jobs:
               })
           })
           console.log(assertionResults)
-    
-    - name: Execution permission
-      run: chmod +x ./sonar.sh
       
     - name: Run script
-      run: ./sonar.sh
-      shell: bash
+      run: |
+        chmod +x ./sonar.sh
+        bash ./sonar.sh
 
     # It doesn't work with C# files
     #- name: SonarQube Scan
