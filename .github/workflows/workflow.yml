@@ -20,7 +20,7 @@ jobs:
       run: npm install dom-parser
 
     - name: Unit Tests
-      run: dotnet test -l:trx 
+      run: dotnet test -l:trx --collect:"XPlat Code Coverage"
     
     - name: Update solution
       if: always()
