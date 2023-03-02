@@ -4,7 +4,7 @@ on:
       - main
 
 jobs:
-  build:
+  sonarqube:
     runs-on: ubuntu-latest
     
     env:
@@ -15,10 +15,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+    
     - name: Build with dotnet
       run: dotnet build --configuration Release
       
@@ -29,46 +31,11 @@ jobs:
       run: dotnet test -l:trx --collect:"XPlat Code Coverage"
     
     - name: Update solution
-      if: always()
-      uses: actions/github-script@v6
-      with:
-        result-encoding: string
-        script: |
-          const fs = require('fs')
-          const DomParser = require('dom-parser')
-          var parser = new DomParser()
-          const assertionResults = []
-          const parentDir = 'test/CsharpBasicSkeleton.Tests/TestResults/'
-          fs.readdirSync(parentDir).forEach((fileName) => {
-              const filePath = parentDir + fileName
-              if (fs.lstatSync(filePath).isDirectory()) {
-                  return
-              }
-              const file = fs.readFileSync(filePath)
-              var fileString = file.toString()
-              fileString = fileString.replaceAll("UnitTestResult", "unittestresult") //Crashed with caps
-              const dom = parser.parseFromString(fileString)
-              dom.getElementsByTagName("unittestresult").forEach((testcase) => {
-                  testName = testcase.getAttribute("testName")
-                  testResult = testcase.getAttribute("outcome")
-                  assertionResults.push(testResult === "Passed")
-              })
-          })
-          console.log(assertionResults)
+      run: node .github/workflows/update_solution.js
       
-    - name: Run script
+    - name: SonarQube Scan
       run: |
         dotnet tool install --global dotnet-sonarscanner
         dotnet tool install --global dotnet-reportgenerator-globaltool
         chmod +x ./sonar.sh
-        bash ./sonar.sh
-
-    # It doesn't work with C# files
-    #- name: SonarQube Scan
-    #  if: always()
-    #  uses: sonarsource/sonarqube-scan-action@master
-    #  with:
-    #    args: >
-    #      -Dsonar.projectKey=${{ github.event.repository.name }}
-  
-  
+        bash .github/workflows/sonarqube.sh
