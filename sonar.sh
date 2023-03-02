@@ -1,7 +1,7 @@
 #!/bin/bash
 
 dotnet sonarscanner begin                                             \
-  /k:"${REPO_NAME}"                                                   \
+  /k:"${PROJECT_ID}"                                                   \
   /d:sonar.host.url="${SONAR_HOST_URL}"                               \
   /d:sonar.login="${SONAR_TOKEN}"                                     \
   /d:sonar.coverageReportPaths="CoverageReport/SonarQube.xml"         \
