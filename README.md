@@ -1,7 +1,13 @@
-# C# Bootstrap (base / project skeleton)
+<div align="center">
+  <img align="center"  width="auto" height="auto" src="https://nuwe.io/images/Group-3-3.png" />
+  <br/>
 
-[![CodelyTV](https://img.shields.io/badge/codely-tv-green.svg?style=flat-square)](https://codely.tv)
-[![Workflow Status](https://github.com/CodelyTV/csharp-basic-skeleton/workflows/Main%20Workflow/badge.svg)](https://github.com/CodelyTV/csharp-basic-skeleton/actions)
+  <div id="user-content-toc">
+    <ul>
+      <summary><h1 style="display: inline-block;">C# Template</h1></summary>
+    </ul>
+  </div>
+</div>
 
 ## Introduction
 
@@ -10,14 +16,15 @@ This is a repository intended to serve as a starting point if you want to bootst
 It could be useful if you want to start from scratch a kata or a little exercise or project.
 
 
+## Requisites
+- [Dotnet 6](https://dotnet.microsoft.com/)
+
 ## How To Start
 
 ### Cloning the repository 
 
 We recommend to follow the next step by step process in order to avoid adding the bootstrap project commits to your project Git history
  
-1. Clone this repository: `git clone https://github.com/CodelyTV/csharp-basic-skeleton your-project-name`
-2. Move to the project directory: `cd your-project-name`
 3. If you don't have it already, [install dotnet](https://dotnet.microsoft.com/download).
 4. Build the project: `dotnet build`
 5. Run tests: `dotnet test`. 
@@ -36,18 +43,8 @@ This hopefully helpful utility has been developed by [CodelyTV][link-author] and
 
 We'll try to maintain this project as simple as possible, but Pull Requests are welcomed!
 
-## 💡 Related repositories
-
-* [Java Basic Skeleton](https://github.com/CodelyTV/java-basic-skeleton)
-* [PHP Basic Skeleton](https://github.com/CodelyTV/php-basic-skeleton)
-* [Scala Basic Skeleton](https://github.com/CodelyTV/scala-basic-skeleton)
 
 ## License
 
-The MIT License (MIT). Please see [License File][link-license] for more information.
-
-[link-license]: LICENSE
-[link-readme]: README.md
-[link-author]: https://github.com/CodelyTV
-[link-contributors]: ../../contributors
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
 
