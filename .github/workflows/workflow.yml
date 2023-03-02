@@ -55,6 +55,9 @@ jobs:
               })
           })
           console.log(assertionResults)
+    
+    - name: Execution permission
+      run: chmod +x ./sonar.sh
       
     - name: Run script
       run: ./sonar.sh
